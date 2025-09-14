@@ -26,7 +26,8 @@ python XmlCommand.py <input_file> [output_file] --tag TAG_NAME --command add|edi
 
 
 ---
-# XML to JSON Converter
+
+## XML to JSON Converter
 
 This Python script converts an XML file into a JSON file by recursively transforming XML elements into nested dictionaries.
 
