@@ -1,30 +1,33 @@
 # XML Attribute Editor
 
-This Python script allows you to **add, edit, and delete attributes** in an XML file.
-
-It uses the built-in `xml.etree.ElementTree` module to handle XML files.
+A Python script to modify XML element attributes with commands to add, edit, or delete attributes.
 
 ---
 
-## Code Summary
+## Features
 
-- **XmlAttributeCommand**:  
-  Abstract base class (interface) for attribute commands.
-
-- **AddAttributeCommand**:  
-  Adds a new attribute to an XML element.
-
-- **EditAttributeCommand**:  
-  Modifies an existing attribute’s value.
-
-- **DeleteAttributeCommand**:  
-  Removes an attribute from an XML element.
-
-- **XmlEditor**:  
-  Handles loading the XML file, executing attribute commands, and saving the updated XML file.
+- Add a new attribute to an XML element.
+- Edit the value of an existing attribute.
+- Delete an attribute from an element.
+- Filter elements by tag name and optionally by attribute key-value pairs.
 
 ---
-# XML to JSON Converter
+
+## Requirements
+
+- Python 3.x
+
+---
+
+## Usage
+
+```bash
+python XmlCommand.py <input_file> [output_file] --tag TAG_NAME --command add|edit|delete --attr_name ATTR_NAME [--attr_value ATTR_VALUE] [--filter_key FILTER_KEY --filter_value FILTER_VALUE]
+```
+
+---
+
+## XML to JSON Converter
 
 This Python script converts an XML file into a JSON file by recursively transforming XML elements into nested dictionaries.
 
@@ -38,7 +41,7 @@ This Python script converts an XML file into a JSON file by recursively transfor
 
 ## Usage
 
-1. Place your XML file (e.g., `Autosar.arxml`) in the script directory.
+1. Place your XML file (e.g., `SOUND_Short_eHorizon_Pdu.arxml`) in the script directory.
 
 2. Run the script:
 

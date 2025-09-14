@@ -7,10 +7,10 @@ def element_to_dict(element):
     
     # add attribute
     if element.attrib:
-        node["@attributes"] = element.attrib
+        node["attributes"] = element.attrib
     # add text if exists
     if element.text and element.text.strip():
-        node["#text"] = element.text.strip()
+        node["text"] = element.text.strip()
     # add children
     for child in element:
         child_dict = element_to_dict(child)
@@ -25,7 +25,7 @@ def element_to_dict(element):
     
     return node
 # read xml file
-tree = ET.parse("Autosar.arxml")
+tree = ET.parse("SOUND_Short_eHorizon_Pdu.arxml")
 root = tree.getroot()
 # convert to dict
 xml_dict = {root.tag: element_to_dict(root)}

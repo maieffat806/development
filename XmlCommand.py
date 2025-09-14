@@ -46,10 +46,16 @@ class XmlEditor:
             self.tree = ET.parse(file_path)
             self.root = self.tree.getroot()
             self.file_path = file_path
+            self.remove_namespaces()  # <-- إزالة namespaces بعد تحميل الملف
         except ET.ParseError as e:
             raise RuntimeError(f"Failed to parse XML file '{file_path}': {e}")
         except FileNotFoundError:
             raise RuntimeError(f"File '{file_path}' not found.")
+
+    def remove_namespaces(self):
+        for elem in self.root.iter():
+            if '}' in elem.tag:
+                elem.tag = elem.tag.split('}', 1)[1]
 
     def find_element(self, tag: str, attrib_key=None, attrib_value=None):
         for elem in self.root.iter(tag):
@@ -120,7 +126,6 @@ def main():
         print(f"Error: {e}")
         sys.exit(1)
 
-    # Save output
     try:
         editor.save(args.output_file)
     except Exception as e:
