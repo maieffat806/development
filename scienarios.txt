@@ -1,0 +1,194 @@
+Positive scienarios
+1. Add a New Attribute
+
+Description: Add a new attribute to an existing XML element.
+
+Test Case: Add an attribute CUSTOM with value 123 to the <I-SIGNAL-I-PDU> element in the SOUND_Short_eHorizon_Pdu.arxml file.
+
+Command:
+
+python XmlCommand.py SOUND_Short_eHorizon_Pdu.arxml EcuExtract_updated.arxml --tag I-SIGNAL-I-PDU --command add --attr_name CUSTOM --attr_value 123
+
+
+Expected Outcome: The <I-SIGNAL-I-PDU> element now includes the attribute CUSTOM="123".
+
+2. Edit an Existing Attribute
+
+Description: Modify the value of an existing attribute in an XML element.
+
+Test Case: Change the UUID attribute value to NEW-UUID-123 in the <I-SIGNAL-I-PDU> element.
+
+Command:
+
+python XmlCommand.py SOUND_Short_eHorizon_Pdu.arxml EcuExtract_updated.arxml --tag I-SIGNAL-I-PDU --command edit --attr_name UUID --attr_value NEW-UUID-123
+
+
+Expected Outcome: The UUID attribute's value is updated to NEW-UUID-123.
+
+3. Delete an Existing Attribute
+
+Description: Remove an existing attribute from an XML element.
+
+Test Case: Delete the UUID attribute from the <I-SIGNAL-I-PDU> element.
+
+Command:
+
+python XmlCommand.py SOUND_Short_eHorizon_Pdu.arxml EcuExtract_updated.arxml --tag I-SIGNAL-I-PDU --command delete --attr_name UUID
+
+
+Expected Outcome: The UUID attribute is no longer present in the <I-SIGNAL-I-PDU> element.
+-----------------------------------------------------------------------------------------------------
+🚫 Negative Scenarios & Error Handling
+1. File Not Found
+
+Scenario: Attempting to operate on a non-existent XML file.
+
+Example Command:
+
+python XmlCommand.py nonexistent.xml EcuExtract_updated.xml --tag AUTOSAR --command add --attr_name newAttr --attr_value value123
+
+
+Expected Error:
+
+Error: File 'nonexistent.xml' not found.
+
+
+Explanation: The tool should check if the specified input file exists before proceeding. If the file is missing, it should terminate with an appropriate error message.
+
+2. Malformed XML
+
+Scenario: The XML file is not well-formed (e.g., missing closing tags).
+
+Example Command:
+
+python XmlCommand.py SOUND_Short_eHorizon_Pdu.xml EcuExtract_updated.xml --tag AUTOSAR --command add --attr_name newAttr --attr_value value123
+
+
+Expected Error:
+
+Error: Failed to parse XML file 'malformed.xml': [specific parsing error message]
+
+
+Explanation: The tool should attempt to parse the XML file and catch any parsing exceptions, providing a clear error message indicating the nature of the issue.
+
+3. Invalid XPath
+
+Scenario: The provided XPath does not match any elements in the XML.
+
+Example Command:
+
+python XmlCommand.py SOUND_Short_eHorizon_Pdu.xml EcuExtract_updated.xml --tag NON_EXISTENT_TAG --command add --attr_name newAttr --attr_value value123
+
+
+Expected Error:
+
+Error: No elements found matching XPath '//NON_EXISTENT_TAG'.
+
+
+Explanation: The tool should evaluate the XPath expression and verify that it selects at least one element. If no elements are found, it should report this as an error.
+
+4. Attribute Already Exists (Add Command)
+
+Scenario: Attempting to add an attribute that already exists on the target element.
+
+Example Command:
+
+python XmlCommand.py SOUND_Short_eHorizon_Pdu.xml EcuExtract_updatedput.xml --tag AUTOSAR --command add --attr_name existingAttr --attr_value newValue
+
+
+Expected Error:
+
+Error: Attribute 'existingAttr' already exists. Use 'edit' command to modify its value.
+
+
+Explanation: When adding an attribute, the tool should check if the attribute already exists. If it does, it should prevent the addition and suggest using the 'edit' command instead.
+
+5. Attribute Not Found (Edit/Delete Commands)
+
+Scenario: Attempting to edit or delete an attribute that doesn't exist on the target element.
+
+Example Command (Edit):
+
+python XmlCommand.py SOUND_Short_eHorizon_Pdu.xml EcuExtract_updated.xml --tag AUTOSAR --command edit --attr_name nonExistentAttr --attr_value newValue
+
+
+Expected Error:
+
+Error: Attribute 'nonExistentAttr' not found on element 'AUTOSAR'.
+
+
+Example Command (Delete):
+
+python XmlCommand.py SOUND_Short_eHorizon_Pdu.xml EcuExtract_updated.xml --tag AUTOSAR --command delete --attr_name nonExistentAttr
+
+
+Expected Error:
+
+Error: Attribute 'nonExistentAttr' not found on element 'AUTOSAR'.
+
+
+Explanation: For both editing and deleting attributes, the tool should first check if the attribute exists on the specified element. If not, it should raise an error indicating the absence of the attribute.
+
+6. Missing Required Arguments
+
+Scenario: Omitting mandatory arguments such as --attr_name or --attr_value.
+
+Example Command:
+
+python XmlCommand.py SOUND_Short_eHorizon_Pdu.xml EcuExtract_updated.xml --tag AUTOSAR --command add
+
+
+Expected Error:
+
+Error: Missing required arguments: --attr_name, --attr_value
+
+
+Explanation: The tool should validate the presence of all required arguments before execution. If any are missing, it should terminate with an error message listing the missing arguments.
+
+7. Unsupported Command
+
+Scenario: Specifying a command that is not supported by the tool.
+
+Example Command:
+
+python XmlCommand.py SOUND_Short_eHorizon_Pdu.xml EcuExtract_updated.xml --tag AUTOSAR --command modify --attr_name newAttr --attr_value value123
+
+
+Expected Error:
+
+Error: Unsupported command 'modify'. Supported commands are: add, edit, delete.
+
+
+Explanation: The tool should check if the specified command is valid. If not, it should provide an error message listing the supported commands.
+
+8. Invalid Attribute Value
+
+Scenario: Providing an invalid value for an attribute (e.g., incorrect data type).
+
+Example Command:
+
+python XmlCommand.py SOUND_Short_eHorizon_Pdu.xml EcuExtract_updated.xml --tag AUTOSAR --command add --attr_name count --attr_value invalidNumber
+
+
+Expected Error:
+
+Error: Invalid value 'invalidNumber' for attribute 'count'. Expected a numeric value.
+
+
+Explanation: The tool should validate the value provided for the attribute based on its expected data type. If the value doesn't match, it should raise an error indicating the expected type.
+
+9. Permission Denied
+
+Scenario: Lack of write permissions to the output file or directory.
+
+Example Command:
+
+python XmlCommand.py SOUND_Short_eHorizon_Pdu.xml /protected/output.xml --tag AUTOSAR --command add --attr_name newAttr --attr_value value123
+
+
+Expected Error:
+
+Error: Permission denied to write to '/protected/output.xml'.
+
+
+Explanation: Before attempting to save the modified
