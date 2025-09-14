@@ -38,7 +38,7 @@ python XmlCommand.py SOUND_Short_eHorizon_Pdu.arxml EcuExtract_updated.arxml --t
 
 Expected Outcome: The UUID attribute is no longer present in the <I-SIGNAL-I-PDU> element.
 -----------------------------------------------------------------------------------------------------
-🚫 Negative Scenarios & Error Handling
+Error Handling
 1. File Not Found
 
 Scenario: Attempting to operate on a non-existent XML file.
