@@ -3,10 +3,12 @@ from abc import ABC, abstractmethod
 import argparse
 import sys
 
+
 class XmlAttributeCommand(ABC):
     @abstractmethod
     def execute(self):
         pass
+
 
 class AddAttributeCommand(XmlAttributeCommand):
     def __init__(self, element: ET.Element, attr_name: str, attr_value: str):
@@ -19,6 +21,7 @@ class AddAttributeCommand(XmlAttributeCommand):
             raise KeyError(f"Attribute '{self.attr_name}' already exists.")
         self.element.set(self.attr_name, self.attr_value)
 
+
 class EditAttributeCommand(XmlAttributeCommand):
     def __init__(self, element: ET.Element, attr_name: str, new_value: str):
         self.element = element
@@ -30,6 +33,7 @@ class EditAttributeCommand(XmlAttributeCommand):
             raise KeyError(f"Attribute '{self.attr_name}' does not exist to edit.")
         self.element.set(self.attr_name, self.new_value)
 
+
 class DeleteAttributeCommand(XmlAttributeCommand):
     def __init__(self, element: ET.Element, attr_name: str):
         self.element = element
@@ -39,6 +43,7 @@ class DeleteAttributeCommand(XmlAttributeCommand):
         if self.attr_name not in self.element.attrib:
             raise KeyError(f"Attribute '{self.attr_name}' does not exist to delete.")
         del self.element.attrib[self.attr_name]
+
 
 class XmlEditor:
     def __init__(self, file_path: str):
@@ -54,8 +59,8 @@ class XmlEditor:
 
     def remove_namespaces(self):
         for elem in self.root.iter():
-            if '}' in elem.tag:
-                elem.tag = elem.tag.split('}', 1)[1]
+            if "}" in elem.tag:
+                elem.tag = elem.tag.split("}", 1)[1]
 
     def find_element(self, tag: str, attrib_key=None, attrib_value=None):
         for elem in self.root.iter(tag):
@@ -70,23 +75,42 @@ class XmlEditor:
 
     def save(self, new_file_path=None):
         path = new_file_path if new_file_path else self.file_path
-        self.tree.write(path, encoding='utf-8', xml_declaration=True)
+        self.tree.write(path, encoding="utf-8", xml_declaration=True)
+
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Edit XML attributes using commands (add, edit, delete).")
+    parser = argparse.ArgumentParser(
+        description="Edit XML attributes using commands (add, edit, delete)."
+    )
 
     parser.add_argument("input_file", help="Path to the input XML file.")
-    parser.add_argument("output_file", nargs='?', default=None, help="Path to save the modified XML file. Defaults to overwriting input file.")
+    parser.add_argument(
+        "output_file",
+        nargs="?",
+        default=None,
+        help="Path to save the modified XML file. Defaults to overwriting input file.",
+    )
 
     parser.add_argument("--tag", required=True, help="Element tag to find.")
     parser.add_argument("--filter_key", help="Attribute key to filter element.")
     parser.add_argument("--filter_value", help="Attribute value to filter element.")
 
-    parser.add_argument("--command", choices=["add", "edit", "delete"], required=True, help="Command to execute on attribute.")
-    parser.add_argument("--attr_name", required=True, help="Attribute name to add/edit/delete.")
-    parser.add_argument("--attr_value", help="Attribute value to add or edit. Required for add and edit commands.")
+    parser.add_argument(
+        "--command",
+        choices=["add", "edit", "delete"],
+        required=True,
+        help="Command to execute on attribute.",
+    )
+    parser.add_argument(
+        "--attr_name", required=True, help="Attribute name to add/edit/delete."
+    )
+    parser.add_argument(
+        "--attr_value",
+        help="Attribute value to add or edit. Required for add and edit commands.",
+    )
 
     return parser.parse_args()
+
 
 def main():
     args = parse_args()
@@ -104,9 +128,9 @@ def main():
 
     elem = editor.find_element(args.tag, args.filter_key, args.filter_value)
     if elem is None:
-        print(f"Error: Element with tag '{args.tag}'", end='')
+        print(f"Error: Element with tag '{args.tag}'", end="")
         if args.filter_key and args.filter_value:
-            print(f" and attribute [{args.filter_key}='{args.filter_value}']", end='')
+            print(f" and attribute [{args.filter_key}='{args.filter_value}']", end="")
         print(" not found.")
         sys.exit(1)
 
@@ -133,6 +157,7 @@ def main():
         sys.exit(1)
 
     print(f"Success! File saved to '{args.output_file or args.input_file}'")
+
 
 if __name__ == "__main__":
     main()
