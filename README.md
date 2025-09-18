@@ -39,6 +39,7 @@ This Python script converts an XML file into a JSON file by recursively transfor
 - Repeated child elements with the same tag are converted into JSON arrays (lists).
 - Saves the output as a pretty-printed JSON file.
 
+  
 ## Usage
 
 1. Place your XML file (e.g., `SOUND_Short_eHorizon_Pdu.arxml`) in the script directory.
