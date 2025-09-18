@@ -12,7 +12,6 @@ A Python script to modify XML element attributes with commands to add, edit, or 
 - Filter elements by tag name and optionally by attribute key-value pairs.
 
 ---
-
 ## Requirements
 
 - Python 3.x
