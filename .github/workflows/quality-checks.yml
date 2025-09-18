@@ -1,5 +1,4 @@
 name: PR Quality Checks
-
 on:
   pull_request_target:
     types: [labeled]
