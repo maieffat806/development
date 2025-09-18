@@ -51,7 +51,7 @@ class XmlEditor:
             self.tree = ET.parse(file_path)
             self.root = self.tree.getroot()
             self.file_path = file_path
-            self.remove_namespaces()  # <-- إزالة namespaces بعد تحميل الملف
+            self.remove_namespaces()  
         except ET.ParseError as e:
             raise RuntimeError(f"Failed to parse XML file '{file_path}': {e}")
         except FileNotFoundError:
