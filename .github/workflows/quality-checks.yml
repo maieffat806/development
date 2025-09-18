@@ -6,7 +6,7 @@ on:
 jobs:
   code-quality:
     name: Code Formatting and Compatibility
-    if: github.event.label?.name == 'check'
+    if: github.event.labels.*.name == 'check'
     runs-on: ubuntu-latest
 
     steps:
