@@ -5,7 +5,8 @@ on:
 jobs:
   code-quality:
     name: Code Formatting and Compatibility
-    if: github.event.labels.*.name == 'check'
+    if: |
+      contains(github.event.pull_request.labels.*.name, 'check')
     runs-on: ubuntu-latest
 
     steps:
