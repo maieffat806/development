@@ -3,7 +3,6 @@
 A Python script to modify XML element attributes with commands to add, edit, or delete attributes.
 
 ---
-
 ## Features
 
 - Add a new attribute to an XML element.
