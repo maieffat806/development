@@ -24,7 +24,6 @@ A Python script to modify XML element attributes with commands to add, edit, or 
 python main.py <input_file> --tag TAG_NAME --command COMMAND --attr_name ATTR_NAME [--attr_value ATTR_VALUE]
 
 ```
-
 ---
 
 ## XML to JSON Converter
