@@ -1,9 +1,9 @@
 import argparse
 import sys
 from xml_Attribute_Editor import ARXMLAttributeEditor
+from xml_to_json import XMLtoJSONConverter
 
-OUTPUT_FILE = "ECU_Extracted.arxml"
-
+OUTPUT_FILE = "SOUND_Short_eHorizon_Pdu_updated.xml"
 
 def parse_args():
     parser = argparse.ArgumentParser(description="ARXML Attribute Editor")
@@ -12,8 +12,8 @@ def parse_args():
     parser.add_argument("--command", choices=["add", "edit", "delete"], required=True)
     parser.add_argument("--attr_name", required=True, help="Attribute name")
     parser.add_argument("--attr_value", help="Attribute value (required for add/edit)")
+    parser.add_argument("--output", default=OUTPUT_FILE, help=f"Output file path (default: {OUTPUT_FILE})")
     return parser.parse_args()
-
 
 def main():
     args = parse_args()
@@ -24,11 +24,7 @@ def main():
 
     try:
         editor = ARXMLAttributeEditor(args.input_file)
-    except Exception as e:
-        print(f"Error loading XML: {e}")
-        sys.exit(1)
 
-    try:
         if args.command == "add":
             editor.add_attribute(args.tag, args.attr_name, args.attr_value)
         elif args.command == "edit":
@@ -39,13 +35,20 @@ def main():
             print(f"Error: Unknown command '{args.command}'")
             sys.exit(1)
 
-        editor.save(OUTPUT_FILE)
-        print(f" Success! Saved to {OUTPUT_FILE}")
+        # Save ARXML
+        output_file = args.output if args.output else OUTPUT_FILE
+        editor.save(output_file)
+        print(f" Success! Saved to {output_file}")
+
+        # Convert to JSON
+        json_output_file = output_file.replace(".xml", ".json")
+        converter = XMLtoJSONConverter(output_file)
+        converter.convert_to_json(json_output_file)
+        print(f" JSON saved to {json_output_file}")
 
     except Exception as e:
         print(f"Error editing XML: {e}")
         sys.exit(1)
-
 
 if __name__ == "__main__":
     main()

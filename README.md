@@ -21,7 +21,7 @@ A Python script to modify XML element attributes with commands to add, edit, or 
 ## Usage
 
 ```bash
-python main.py <input_file> --tag TAG_NAME --command COMMAND --attr_name ATTR_NAME [--attr_value ATTR_VALUE]
+python main.py <input_file> --tag TAG_NAME --command COMMAND --attr_name ATTR_NAME [--attr_value ATTR_VALUE] -- <output file>
 
 ```
 
@@ -43,7 +43,3 @@ This Python script converts an XML file into a JSON file by recursively transfor
 
 1. Place your XML file (e.g., `SOUND_Short_eHorizon_Pdu.arxml`) in the script directory.
 
-2. Run the script:
-
-   ```bash
-   python main.py

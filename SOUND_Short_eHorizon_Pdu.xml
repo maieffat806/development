@@ -2,7 +2,7 @@
 <ns0:AUTOSAR xmlns:ns0="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-2-1_STRICT_COMPACT.xsd">
             <ns0:I-SIGNAL-I-PDU UUID="N9e81fe6195e098d93323faeXN9e81fe6195e098d93323fa700">
               <ns0:SHORT-NAME>SOUND_Short_eHorizon_Pdu</ns0:SHORT-NAME>
-              <ns0:LENGTH myAttr="test123">64</ns0:LENGTH>
+              <ns0:LENGTH myAttr="123">64</ns0:LENGTH>
               <ns0:CONTAINED-I-PDU-PROPS>
                 <ns0:COLLECTION-SEMANTICS>QUEUED</ns0:COLLECTION-SEMANTICS>
                 <ns0:HEADER-ID-LONG-HEADER>20519</ns0:HEADER-ID-LONG-HEADER>
