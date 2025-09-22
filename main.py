@@ -4,6 +4,7 @@ from xml_Attribute_Editor import ARXMLAttributeEditor
 
 OUTPUT_FILE = "ECU_Extracted.arxml"
 
+
 def parse_args():
     parser = argparse.ArgumentParser(description="ARXML Attribute Editor")
     parser.add_argument("input_file", help="Path to the input ARXML file")
@@ -12,6 +13,7 @@ def parse_args():
     parser.add_argument("--attr_name", required=True, help="Attribute name")
     parser.add_argument("--attr_value", help="Attribute value (required for add/edit)")
     return parser.parse_args()
+
 
 def main():
     args = parse_args()
@@ -43,6 +45,7 @@ def main():
     except Exception as e:
         print(f"Error editing XML: {e}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
