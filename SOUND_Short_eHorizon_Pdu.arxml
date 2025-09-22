@@ -1,6 +1,8 @@
-<?xml version='1.0' encoding='utf-8'?>
-<AUTOSAR xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-2-1_STRICT_COMPACT.xsd" newAttr="value123">
-            <I-SIGNAL-I-PDU UUID="N9e81fe6195e098d93323faeXN9e81fe6195e098d93323fa700" newAttr="value123">
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" 
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-2-1_STRICT_COMPACT.xsd">
+            <I-SIGNAL-I-PDU UUID="N9e81fe6195e098d93323faeXN9e81fe6195e098d93323fa700">
               <SHORT-NAME>SOUND_Short_eHorizon_Pdu</SHORT-NAME>
               <LENGTH>64</LENGTH>
               <CONTAINED-I-PDU-PROPS>

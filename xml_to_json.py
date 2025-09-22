@@ -1,37 +1,26 @@
 import xml.etree.ElementTree as ET
 import json
 
+class XMLtoJSONConverter:
+    def __init__(self, xml_file):
+        self.xml_file = xml_file
 
-# convert element to dict
-def element_to_dict(element):
-    node = {}
+    def parse_xml(self):
+        tree = ET.parse(self.xml_file)
+        root = tree.getroot()
+        return self._element_to_dict(root)
 
-    # add attribute
-    if element.attrib:
-        node["attributes"] = element.attrib
-    # add text if exists
-    if element.text and element.text.strip():
-        node["text"] = element.text.strip()
-    # add children
-    for child in element:
-        child_dict = element_to_dict(child)
-        if child.tag not in node:
-            node[child.tag] = child_dict
-        else:
-            # handle multiple children with same tag
-            if isinstance(node[child.tag], list):
-                node[child.tag].append(child_dict)
-            else:
-                node[child.tag] = [node[child.tag], child_dict]
+    def _element_to_dict(self, element):
+        data = {}
 
-    return node
+        for child in element:
+            data[child.tag] = self._element_to_dict(child)
+        
+        if element.text and element.text.strip():
+            data['text'] = element.text.strip()
+        return data
 
-
-# read xml file
-tree = ET.parse("SOUND_Short_eHorizon_Pdu.arxml")
-root = tree.getroot()
-# convert to dict
-xml_dict = {root.tag: element_to_dict(root)}
-# save in json file
-with open("filename_updated.json", "w", encoding="utf-8") as f:
-    json.dump(xml_dict, f, indent=4)
+    def convert_to_json(self, output_file):
+        data = self.parse_xml()
+        with open(output_file, "w", encoding="utf-8") as json_file:
+            json.dump(data, json_file, indent=4, ensure_ascii=False)
