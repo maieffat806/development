@@ -21,7 +21,10 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const pr_number = context.issue.number;
+            const pr_number = context.issue.number; // PR number from comment event
+            console.log("Merging PR #" + pr_number);
+      
+            // Merge the PR
             await github.pulls.merge({
               owner: context.repo.owner,
               repo: context.repo.repo,
