@@ -4,8 +4,7 @@ on:
   pull_request:
     types: [opened, labeled, unlabeled]
   issue_comment:
-    types:
-      - created
+    types: [created, edited, deleted]
 
 jobs:
   code-quality:
