@@ -2,7 +2,7 @@ name: PR Quality Checks
 
 on:
   pull_request:
-    types: [labeled]
+    types: [labeled, unlabled]
   issue_comment:
     types: [created]
 
@@ -15,7 +15,7 @@ jobs:
        github.event.label != null &&
        github.event.label.name == 'check') ||
       (github.event_name == 'issue_comment' &&
-       github.event.issue.pull_request != null &&
+       github.event.issue.pull_request &&
        contains(github.event.comment.body, 'recheck'))
     runs-on: ubuntu-latest
 
