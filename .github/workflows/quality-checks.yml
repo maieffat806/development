@@ -7,9 +7,9 @@ on:
     types: [created]
 
 permissions:
-  contents: read
-  pull-requests: read
-  issues: read
+  contents: write
+  pull-requests: write
+  issues: write
 
 jobs:
   code-quality:
@@ -19,7 +19,7 @@ jobs:
         github.event.action == 'labeled' && github.event.label.name == 'check'
       )) ||
       (github.event_name == 'issue_comment' &&
-       github.event_name == 'pull_request' &&
+       github.event.issue.pull_request != '' &&
        contains(github.event.comment.body, 'recheck'))
     runs-on: ubuntu-latest
 
