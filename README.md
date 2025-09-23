@@ -8,8 +8,6 @@ A Python script to modify XML element attributes with commands to add, edit, or 
 - Add a new attribute to an XML element.
 - Edit the value of an existing attribute.
 - Delete an attribute from an element.
-
-
 ---
 
 ## Requirements
