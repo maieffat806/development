@@ -1,0 +1,98 @@
+name: PR Workflow
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  issue_comment:
+    types: [created, edited]
+
+jobs:
+  process-pr:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Determine PR number safely
+      id: get_pr
+      uses: actions/github-script@v7
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          try {
+            let pr_number = null;
+            let pr_title = '';
+            let pr_branch = '';
+            console.log('Event type:', github.event_name);
+            console.log('Event payload:', JSON.stringify(github.event, null, 2));
+            if (github.event_name === 'pull_request') {
+              // Handle direct PR events
+              if (github.event.pull_request) {
+                pr_number = github.event.pull_request.number;
+                pr_title = github.event.pull_request.title || '';
+                pr_branch = github.event.pull_request.head?.ref || '';
+              }
+            } 
+            else if (github.event_name === 'issue_comment') {
+              // Handle comment events - only if it's on a PR
+              if (github.event.issue && github.event.issue.pull_request) {
+                pr_number = github.event.issue.number;
+                pr_title = github.event.issue.title || '';
+                
+                // For comment events, we need to fetch PR details to get branch info
+                try {
+                  const prResponse = await github.rest.pulls.get({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    pull_number: pr_number
+                  });
+                  pr_branch = prResponse.data.head?.ref || '';
+                } catch (error) {
+                  console.log('Could not fetch PR details:', error.message);
+                }
+              }
+            }
+            if (pr_number) {
+              console.log(`Found PR #${pr_number}: ${pr_title}`);
+              console.log(`Branch: ${pr_branch}`);
+              
+              core.setOutput('pr_number', pr_number.toString());
+              core.setOutput('pr_title', pr_title);
+              core.setOutput('pr_branch', pr_branch);
+              core.setOutput('pr_exists', 'true');
+            } else {
+              console.log("No PR number found in this event");
+              core.setOutput('pr_number', '');
+              core.setOutput('pr_exists', 'false');
+            }
+            return { pr_number, pr_title, pr_branch };
+            
+          } catch (error) {
+            console.error('Error in PR detection:', error);
+            core.setOutput('pr_number', '');
+            core.setOutput('pr_exists', 'false');
+            return null;
+          }
+    - name: Check PR status
+      id: check_pr
+      run: |
+        echo "PR exists: ${{ steps.get_pr.outputs.pr_exists }}"
+        echo "PR number: ${{ steps.get_pr.outputs.pr_number }}"
+        if [ "${{ steps.get_pr.outputs.pr_exists }}" = "true" ]; then
+          echo "PR title: ${{ steps.get_pr.outputs.pr_title }}"
+          echo "PR branch: ${{ steps.get_pr.outputs.pr_branch }}"
+        fi
+    - name: Process PR
+      if: steps.get_pr.outputs.pr_exists == 'true'
+      run: |
+        echo "Processing PR #${{ steps.get_pr.outputs.pr_number }}"
+        echo "Title: ${{ steps.get_pr.outputs.pr_title }}"
+        echo "Branch: ${{ steps.get_pr.outputs.pr_branch }}"
+        
+        # Your actual PR processing logic here
+        # Example: run tests, build, deploy, etc.
+    - name: Skip non-PR events
+      if: steps.get_pr.outputs.pr_exists == 'false'
+      run: |
+        echo "Skipping workflow - this is not a PR-related event"
+        echo "Event type: ${{ github.event_name }}"

@@ -1,0 +1,68 @@
+{
+    "{http://autosar.org/schema/r4.0}I-SIGNAL-I-PDU": {
+        "{http://autosar.org/schema/r4.0}SHORT-NAME": {
+            "text": "SOUND_Short_eHorizon_Pdu"
+        },
+        "{http://autosar.org/schema/r4.0}LENGTH": {
+            "text": "64"
+        },
+        "{http://autosar.org/schema/r4.0}CONTAINED-I-PDU-PROPS": {
+            "{http://autosar.org/schema/r4.0}COLLECTION-SEMANTICS": {
+                "text": "QUEUED"
+            },
+            "{http://autosar.org/schema/r4.0}HEADER-ID-LONG-HEADER": {
+                "text": "20519"
+            },
+            "{http://autosar.org/schema/r4.0}TRIGGER": {
+                "text": "ALWAYS"
+            }
+        },
+        "{http://autosar.org/schema/r4.0}I-PDU-TIMING-SPECIFICATIONS": {
+            "{http://autosar.org/schema/r4.0}I-PDU-TIMING": {
+                "{http://autosar.org/schema/r4.0}TRANSMISSION-MODE-DECLARATION": {
+                    "{http://autosar.org/schema/r4.0}TRANSMISSION-MODE-CONDITIONS": {
+                        "{http://autosar.org/schema/r4.0}TRANSMISSION-MODE-CONDITION": {
+                            "{http://autosar.org/schema/r4.0}DATA-FILTER": {
+                                "{http://autosar.org/schema/r4.0}DATA-FILTER-TYPE": {
+                                    "text": "ALWAYS"
+                                }
+                            },
+                            "{http://autosar.org/schema/r4.0}I-SIGNAL-IN-I-PDU-REF": {
+                                "text": "/Communication/PDUs/SOUND_Short_eHorizon_Pdu/isShort_eHorizonExt_mrx"
+                            }
+                        }
+                    },
+                    "{http://autosar.org/schema/r4.0}TRANSMISSION-MODE-TRUE-TIMING": {
+                        "{http://autosar.org/schema/r4.0}EVENT-CONTROLLED-TIMING": {
+                            "{http://autosar.org/schema/r4.0}NUMBER-OF-REPETITIONS": {
+                                "text": "0"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "{http://autosar.org/schema/r4.0}I-SIGNAL-TO-PDU-MAPPINGS": {
+            "{http://autosar.org/schema/r4.0}I-SIGNAL-TO-I-PDU-MAPPING": {
+                "{http://autosar.org/schema/r4.0}SHORT-NAME": {
+                    "text": "isShort_eHorizonExt_mrx"
+                },
+                "{http://autosar.org/schema/r4.0}I-SIGNAL-REF": {
+                    "text": "/Communication/Signals/isShort_eHorizonExt"
+                },
+                "{http://autosar.org/schema/r4.0}PACKING-BYTE-ORDER": {
+                    "text": "OPAQUE"
+                },
+                "{http://autosar.org/schema/r4.0}START-POSITION": {
+                    "text": "0"
+                },
+                "{http://autosar.org/schema/r4.0}TRANSFER-PROPERTY": {
+                    "text": "TRIGGERED"
+                }
+            }
+        },
+        "{http://autosar.org/schema/r4.0}UNUSED-BIT-PATTERN": {
+            "text": "0"
+        }
+    }
+}

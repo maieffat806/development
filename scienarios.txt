@@ -1,0 +1,51 @@
+Test Scenarios 
+==============
+
+1. Positive Scenarios (Expected Success)
+----------------------------------------
+1️ Add Attribute
+Command:
+python main.py SOUND_Short_eHorizon_Pdu.arxml --tag I-SIGNAL-I-PDU --command add --attr_name myAttr --attr_value test123
+Expected Output:
+--------------------------------
+Added: Attribute 'myAttr'='test123' to element '{http://autosar.org/schema/r4.0}I-SIGNAL-I-PDU'
+ Success! Saved to ECU_Extracted.arxml
+ 2️ Edit Attribute
+---------------------------------
+Command:
+python main.py SOUND_Short_eHorizon_Pdu.arxml --tag I-SIGNAL-I-PDU --command edit --attr_name myAttr --attr_value newValue
+Expected Output:
+Edited: Attribute 'myAttr' from 'test123' to 'newValue' in element '{http://autosar.org/schema/r4.0}I-SIGNAL-I-PDU'
+ Success! Saved to ECU_Extracted.arxml
+ ----------------------------------
+Edge Case: Attribute does not exist
+-----------------------------------
+python main.py SOUND_Short_eHorizon_Pdu.arxml --tag I-SIGNAL-I-PDU --command edit --attr_name missingAttr --attr_value value
+Expected Output:
+Skipped: Attribute 'missingAttr' not found in element '{http://autosar.org/schema/r4.0}I-SIGNAL-I-PDU'
+ Success! Saved to ECU_Extracted.arxml
+-------------------------------------
+3️ Delete Attribute
+
+python main.py SOUND_Short_eHorizon_Pdu.arxml --tag I-SIGNAL-I-PDU --command delete --attr_name myAttr
+Expected Output:
+Deleted: Attribute 'myAttr' from element '{http://autosar.org/schema/r4.0}I-SIGNAL-I-PDU'
+Success! Saved to ECU_Extracted.arxml
+-------------------------------------
+Edge Case: Attribute does not exist
+python main.py SOUND_Short_eHorizon_Pdu.arxml --tag I-SIGNAL-I-PDU --command delete --attr_name missingAttr
+Expected Output:
+Skipped: Attribute 'missingAttr' not found in element '{http://autosar.org/schema/r4.0}I-SIGNAL-I-PDU'
+Success! Saved to ECU_Extracted.arxml
+---------------------------------------
+4️ Element not found
+python main.py SOUND_Short_eHorizon_Pdu.arxml --tag NON_EXISTENT_TAG --command add --attr_name newAttr --attr_value value
+Expected Output:
+Error: Element 'NON_EXISTENT_TAG' not found
+--------------------------------------------
+5️ Missing attr_value for add/edit
+python main.py SOUND_Short_eHorizon_Pdu.arxml --tag I-SIGNAL-I-PDU --command add --attr_name myAttr
+Expected Output:
+python main.py SOUND_Short_eHorizon_Pdu.arxml --tag I-SIGNAL-I-PDU --command invalid --attr_name myAttr --attr_value test
+Error: Unknown command 'invalid'
+------------------------------------------
