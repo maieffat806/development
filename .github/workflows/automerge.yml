@@ -1,6 +1,8 @@
 name: Auto Merge on Comment
 
 on:
+  pull_request:
+    types: [opened, reopened, synchronize]
   issue_comment:
     types: [created]
 
@@ -11,7 +13,7 @@ permissions:
 
 jobs:
   automerge:
-    if: github.event.issue.pull_request != null && contains(github.event.comment.body, '/merge')
+    if: github.event.issue.pull_request != null && contains(github.event.comment.body, 'merge')
     runs-on: ubuntu-latest
     steps:
       - name: Merge PR
