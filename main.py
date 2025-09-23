@@ -5,6 +5,7 @@ from xml_to_json import XMLtoJSONConverter
 
 OUTPUT_FILE = "SOUND_Short_eHorizon_Pdu_updated.xml"
 
+
 def parse_args():
     parser = argparse.ArgumentParser(description="ARXML Attribute Editor")
     parser.add_argument("input_file", help="Path to the input ARXML file")
@@ -12,8 +13,13 @@ def parse_args():
     parser.add_argument("--command", choices=["add", "edit", "delete"], required=True)
     parser.add_argument("--attr_name", required=True, help="Attribute name")
     parser.add_argument("--attr_value", help="Attribute value (required for add/edit)")
-    parser.add_argument("--output", default=OUTPUT_FILE, help=f"Output file path (default: {OUTPUT_FILE})")
+    parser.add_argument(
+        "--output",
+        default=OUTPUT_FILE,
+        help=f"Output file path (default: {OUTPUT_FILE})",
+    )
     return parser.parse_args()
+
 
 def main():
     args = parse_args()
@@ -49,6 +55,7 @@ def main():
     except Exception as e:
         print(f"Error editing XML: {e}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
