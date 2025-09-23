@@ -2,7 +2,7 @@ name: PR Quality Checks (Comment Recheck)
 
 on:
   issue_comment:
-    types: [created]
+    types: [created, deleted]
 
 permissions:
   contents: read
@@ -13,7 +13,7 @@ jobs:
   code-quality:
     name: Code Formatting and Compatibility
     if: |
-      github.event.issue.pull_request != null &&
+      github.event.issue.pull_request &&
       contains(toLower(github.event.comment.body), 'recheck')
     runs-on: ubuntu-latest
 
