@@ -10,11 +10,6 @@ jobs:
   code-quality:
     name: Code Formatting and Compatibility
     if: |
-      (github.event_name == 'pull_request' &&
-       github.event.action == 'labeled' &&
-       github.event.label != null &&
-       github.event.label.name == 'check') ||
-      (github.event_name == 'issue_comment' &&
        contains(github.event.comment.body, 'recheck'))
     runs-on: ubuntu-latest
 
