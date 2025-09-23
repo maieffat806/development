@@ -7,7 +7,6 @@ on:
     types: [created]
 
 permissions:
-  contents: read
   issues: write
   pull-requests: write
 
@@ -21,7 +20,7 @@ jobs:
        github.event.label.name == 'check')
       ||
       (github.event_name == 'issue_comment' &&
-       github.event.issue.pull_request != null &&
+       github.event.issue.pull_request &&
        contains(toLower(github.event.comment.body), 'recheck'))
     runs-on: ubuntu-latest
 
