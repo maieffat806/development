@@ -21,11 +21,12 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          if (github.event.comment.body.trim().toLowerCase() === 'merge') {
+          // Use context.payload instead of github.event
+          if (context.payload.comment.body.trim().toLowerCase() === 'merge') {
             await github.rest.pulls.merge({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: github.event.issue.number,
+              pull_number: context.payload.issue.number,
               merge_method: 'squash'
             });
             console.log('✅ PR merged!');
