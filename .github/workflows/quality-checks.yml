@@ -14,7 +14,13 @@ permissions:
 jobs:
   code-quality:
     name: Code Formatting and Compatibility
-    if: contains(github.event.pull_request.labels.*.name, 'check') || (github.event_name == 'issue_comment' && github.event.comment.body == 'recheck')
+    if: |
+      (github.event_name == 'pull_request' && (
+        github.event.action == 'labeled' && github.event.label.name == 'check'
+      )) ||
+      (github.event_name == 'issue_comment' && 
+       github.event.issue.pull_request != '' && 
+       contains(github.event.comment.body, 'recheck'))
     runs-on: ubuntu-latest
 
     steps:
@@ -23,7 +29,12 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      
+      - name: Debug event info
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Action: ${{ github.event.action }}"
+          echo "Label: ${{ github.event.label.name }}"
+          echo "Comment: ${{ github.event.comment.body }}"
 
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
