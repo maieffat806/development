@@ -6,7 +6,8 @@ on:
 
 permissions:
   pull-requests: write
-  contents: read
+  contents: write
+  issues: write
 
 jobs:
   merge-on-comment:
@@ -21,13 +22,21 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          // Use context.payload instead of github.event
-          if (context.payload.comment.body.trim().toLowerCase() === 'merge') {
-            await github.rest.pulls.merge({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.issue.number,
-              merge_method: 'squash'
-            });
-            console.log('✅ PR merged!');
+          try {
+            if (context.payload.comment.body.trim().toLowerCase() === 'merge') {
+              const prNumber = context.payload.issue.number;
+              
+              console.log(`Attempting to merge PR #${prNumber}...`);
+              
+              await github.rest.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                merge_method: 'squash'
+              });
+              
+              console.log('✅ PR merged successfully!');
+            }
+          } catch (error) {
+            console.error('❌ Merge failed:', error.message);
           }
