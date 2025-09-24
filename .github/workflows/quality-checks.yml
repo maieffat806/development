@@ -5,8 +5,8 @@ on:
     types: [created]
 
 permissions:
-  pull-requests: write
-  contents: write
+  pull-requests: read
+  contents: read
 
 jobs:
   merge-on-comment:
