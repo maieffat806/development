@@ -21,12 +21,23 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          if (github.event.comment.body.trim().toLowerCase() === 'merge') {
-            await github.rest.pulls.merge({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: github.event.issue.number,
-              merge_method: 'squash'
-            });
-            console.log('✅ PR merged!');
+          try {
+            const commentBody = github.event.comment.body.trim().toLowerCase();
+            if (commentBody === 'merge') {
+              const prNumber = github.event.issue.number;
+              
+              console.log(`Merging PR #${prNumber}...`);
+              
+              await github.rest.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                merge_method: 'squash'
+              });
+              
+              console.log('✅ PR merged successfully!');
+            }
+          } catch (error) {
+            console.error('❌ Merge failed:', error.message);
+            core.setFailed(`Merge failed: ${error.message}`);
           }
