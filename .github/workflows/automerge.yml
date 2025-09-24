@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       github.event.issue.pull_request != '' &&
-      contains(github.event.comment.body, 'merge')
+      contains(github.event.comment.body, 'recheck')
     
     steps:
     - name: Merge PR
@@ -21,12 +21,6 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          if (github.event.comment.body.trim().toLowerCase() === 'merge') {
-            await github.rest.pulls.merge({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: github.event.issue.number,
-              merge_method: 'squash'
-            });
+          if (github.event.comment.body.trim().toLowerCase() === 'recheck') {
             console.log('✅ PR merged!');
           }
