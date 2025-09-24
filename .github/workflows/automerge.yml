@@ -15,28 +15,28 @@ jobs:
     if: |
       github.event.issue.pull_request != '' &&
       contains(github.event.comment.body, 'merge')
-    
+
     steps:
-    - name: Merge PR
-      uses: actions/github-script@v7
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          try {
-            if (context.payload.comment.body.trim().toLowerCase() === 'merge') {
-              const prNumber = context.payload.issue.number;
-              
-              console.log(`Attempting to merge PR #${prNumber}...`);
-              
-              await github.rest.pulls.merge({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: prNumber,
-                merge_method: 'squash'
-              });
-              
-              console.log('✅ PR merged successfully!');
+      - name: Merge PR
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+              if (context.payload.comment.body.trim().toLowerCase() === 'merge') {
+                const prNumber = context.payload.issue.number;
+                
+                console.log(`Attempting to merge PR #${prNumber}...`);
+                
+                await github.rest.pulls.merge({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: prNumber,
+                  merge_method: 'squash'
+                });
+                
+                console.log('✅ PR merged successfully!');
+              }
+            } catch (error) {
+              console.error('❌ Merge failed:', error.message);
             }
-          } catch (error) {
-            console.error('❌ Merge failed:', error.message);
-          }
