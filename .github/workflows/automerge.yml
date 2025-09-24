@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       github.event.issue.pull_request != '' &&
-      contains(github.event.comment.body, 'recheck')
+      contains(github.event.comment.body, 'mai')
     
     steps:
     - name: Merge PR
@@ -21,6 +21,6 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          if (github.event.comment.body.trim().toLowerCase() === 'recheck') {
+          if (github.event.comment.body.trim().toLowerCase() === 'mai') {
             console.log('✅ PR merged!');
           }
