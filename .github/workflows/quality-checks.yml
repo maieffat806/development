@@ -2,28 +2,21 @@ name: PR Quality Checks
 
 on:
   pull_request:
-    types: [labeled, unlabeled, opened, synchronize, reopened]
+    types: [opened, synchronize, reopened]
   issue_comment:
     types: [created]
-
-permissions:
-  contents: write
-  pull-requests: write
-  issues: write
 
 jobs:
   code-quality:
     name: Code Formatting and Compatibility
-    if: contains(github.event.pull_request.labels.*.name, 'check') || (github.event_name == 'issue_comment' && github.event.comment.body == 'recheck')
     runs-on: ubuntu-latest
-
+    if: |
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, 'recheck'))
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      
 
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
