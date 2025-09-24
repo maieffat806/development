@@ -1,21 +1,19 @@
+---
 name: Auto Merge PR
-
-on:
+"on":
   issue_comment:
-    types: [created]
-
+    types:
+      - created
 permissions:
   pull-requests: write
   contents: write
   issues: write
-
 jobs:
   merge-on-comment:
     runs-on: ubuntu-latest
     if: |
       github.event.issue.pull_request != '' &&
       contains(github.event.comment.body, 'merge')
-
     steps:
       - name: Merge PR
         uses: actions/github-script@v7
@@ -23,18 +21,22 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             try {
-              if (context.payload.comment.body.trim().toLowerCase() === 'merge') {
+              if (
+                context.payload.comment.body
+                  .trim()
+                  .toLowerCase() === 'merge'
+              ) {
                 const prNumber = context.payload.issue.number;
-                
+
                 console.log(`Attempting to merge PR #${prNumber}...`);
-                
+
                 await github.rest.pulls.merge({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   pull_number: prNumber,
                   merge_method: 'squash'
                 });
-                
+
                 console.log('✅ PR merged successfully!');
               }
             } catch (error) {
